@@ -45,16 +45,28 @@ ul{margin:3px 0 0;padding-left:15px}li{margin:1.5px 0;color:var(--ink2)}li b{col
 .cols{display:grid;grid-template-columns:1.15fr 1fr;gap:18px}
 .edu div{margin-bottom:5px;color:var(--ink2)}.edu b{color:var(--ink)}
 .small{font-size:8.4pt;color:var(--muted)}
+a{color:inherit}
+.contact a,.small a{text-decoration:none;border-bottom:1px dotted var(--faint,#94A3B8)}
+.contact a:hover,.small a:hover{color:var(--brand-ink);border-color:var(--brand)}
+a.pc{display:block;text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s}
+a.pc:hover{border-color:var(--brand);box-shadow:0 4px 16px rgba(255,106,43,.15)}
+.pc .go{float:right;font-size:7.6pt;font-weight:600;color:var(--brand-ink)}
+.bar{position:sticky;top:0;z-index:5;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px max(16px,env(safe-area-inset-left,0px));background:var(--navy)}
+.bar a{font:600 13px/1 "Be Vietnam Pro",system-ui,sans-serif;color:#fff;text-decoration:none;padding:9px 14px;border-radius:8px;background:#1F2937}
+.bar a.main{background:var(--brand)}.bar a:hover{background:#fff;color:var(--ink)}
+@media screen{.page{margin:18px auto;box-shadow:0 4px 24px rgba(15,23,42,.08);border-radius:6px}}
+@media print{.bar{display:none}.pc .go{display:none}}
 </style>
 </head>
 <body>
+<nav class="bar"><a class="main" href="CV_Huynh_Khang_Vinh.pdf" download>Download PDF</a><a href="index.html">Interactive dashboard</a><a href="https://github.com/dinndinn1204/Khang-Vinh_Portfolio">GitHub repo</a></nav>
 <main class="page">
 
 
   <header>
     <div class="mark">KV</div>
     <div><h1>Huynh Khang Vinh</h1><div class="role">Business Operations Analyst</div></div>
-    <div class="contact">khangvinh.career@gmail.com<br>0938 982 933<br><a href="https://github.com/dinndinn1204/Khang-Vinh_Portfolio">github.com/dinndinn1204</a></div>
+    <div class="contact"><a href="mailto:khangvinh.career@gmail.com">khangvinh.career@gmail.com</a><br><a href="tel:+84938982933">0938 982 933</a><br><a href="https://dinndinn1204.github.io/Khang-Vinh_Portfolio/">dinndinn1204.github.io/Khang-Vinh_Portfolio</a></div>
   </header>
 
   <h2>Summary</h2>
@@ -127,20 +139,20 @@ ul{margin:3px 0 0;padding-left:15px}li{margin:1.5px 0;color:var(--ink2)}li b{col
 
   <h2>Portfolio projects · synthetic data</h2>
   <div class="proj">
-    <div class="pc"><img src="../charts/forecast_vs_actual.png" alt="Weekly units, actual vs forecast">
-      <h3>Demand forecasting &amp; replenishment</h3><p>180 store × SKU series; exponential smoothing with a learned promo uplift cut WAPE from 20.3 % (naive) to 12.6 % and stock-out weeks from 25.3 % to 13.6 %.</p>
-      <div class="tags"><span>Python</span><span>pandas</span><span>Forecasting</span></div></div>
-    <div class="pc"><img src="../charts/allocation.png" alt="Min/Max allocation chart">
-      <h3>Min/Max bike allocation</h3><p>Rule engine that serves paid orders first, then fills Min and Max by lowest coverage; 49 → 0 store-models below Min, with a built-in self-check.</p>
-      <div class="tags"><span>Python</span><span>Allocation</span><span>Testing</span></div></div>
-    <div class="pc"><img src="../charts/freight_monthly.png" alt="Freight by month and channel">
-      <h3>Freight cost estimator</h3><p>Prices 1,800 trips from a destination × trip-size tariff with a diesel surcharge at pick-up date; monthly roll-up written in SQL.</p>
-      <div class="tags"><span>pandas</span><span>SQL</span><span>Logistics cost</span></div></div>
-    <div class="pc"><img src="../charts/warehouse_kpi.png" alt="Orders per day and on-time rate">
-      <h3>Warehouse &amp; delivery KPIs</h3><p>On-time rate by business unit, picker ranking and issue Pareto with CTEs and window functions; shows the month-end peak dragging on-time from 92 % to 84 %.</p>
-      <div class="tags"><span>SQL</span><span>Window functions</span><span>KPI</span></div></div>
+    <a class="pc" href="https://dinndinn1204.github.io/Khang-Vinh_Portfolio/#forecast"><img src="charts/forecast_vs_actual.png" alt="Weekly units, actual vs forecast">
+      <span class="go">Open ↗</span><h3>Demand forecasting &amp; replenishment</h3><p>180 store × SKU series; exponential smoothing with a learned promo uplift cut WAPE from 20.3 % (naive) to 12.6 % and stock-out weeks from 25.3 % to 13.6 %.</p>
+      <div class="tags"><span>Python</span><span>pandas</span><span>Forecasting</span></div></a>
+    <a class="pc" href="https://dinndinn1204.github.io/Khang-Vinh_Portfolio/#allocation"><img src="charts/allocation.png" alt="Min/Max allocation chart">
+      <span class="go">Open ↗</span><h3>Min/Max bike allocation</h3><p>Rule engine that serves paid orders first, then fills Min and Max by lowest coverage; 49 → 0 store-models below Min, with a built-in self-check.</p>
+      <div class="tags"><span>Python</span><span>Allocation</span><span>Testing</span></div></a>
+    <a class="pc" href="https://dinndinn1204.github.io/Khang-Vinh_Portfolio/#freight"><img src="charts/freight_monthly.png" alt="Freight by month and channel">
+      <span class="go">Open ↗</span><h3>Freight cost estimator</h3><p>Prices 1,800 trips from a destination × trip-size tariff with a diesel surcharge at pick-up date; monthly roll-up written in SQL.</p>
+      <div class="tags"><span>pandas</span><span>SQL</span><span>Logistics cost</span></div></a>
+    <a class="pc" href="https://dinndinn1204.github.io/Khang-Vinh_Portfolio/#warehouse"><img src="charts/warehouse_kpi.png" alt="Orders per day and on-time rate">
+      <span class="go">Open ↗</span><h3>Warehouse &amp; delivery KPIs</h3><p>On-time rate by business unit, picker ranking and issue Pareto with CTEs and window functions; shows the month-end peak dragging on-time from 92 % to 84 %.</p>
+      <div class="tags"><span>SQL</span><span>Window functions</span><span>KPI</span></div></a>
   </div>
-  <p class="small" style="margin:6px 0 0">Interactive dashboard, code and data: github.com/dinndinn1204/Khang-Vinh_Portfolio · Earlier Power BI work: Delivery Report (shipments, CS and picker performance), Sales Performance and E-commerce Sales &amp; Operations dashboards.</p>
+  <p class="small" style="margin:6px 0 0"><a href="https://dinndinn1204.github.io/Khang-Vinh_Portfolio/">Interactive dashboard</a> · <a href="https://github.com/dinndinn1204/Khang-Vinh_Portfolio">code and data on GitHub</a> · Earlier Power BI work: Delivery Report (shipments, CS and picker performance), Sales Performance and E-commerce Sales &amp; Operations dashboards.</p>
 
   <div class="cols">
     <div class="edu">

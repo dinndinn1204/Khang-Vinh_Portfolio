@@ -1,4 +1,4 @@
-// Render docs/index.html in headless Chrome and save every [data-shot] card as charts/<name>.png, plus the full page.
+// Render docs/index.html in headless Chrome and save every [data-shot] card as docs/charts/<name>.png, plus the full page.
 // Usage: node scripts/shoot.mjs   (needs google-chrome on PATH and internet for the font + ECharts CDN)
 import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -29,14 +29,14 @@ const H = await js("document.documentElement.scrollHeight");
 await cmd("Emulation.setDeviceMetricsOverride", { width: W, height: H, deviceScaleFactor: SCALE, mobile: false });
 await js("dispatchEvent(new Event('resize'))");
 await sleep(800);
-mkdirSync(resolve(root, "charts"), { recursive: true });
+mkdirSync(resolve(root, "docs/charts"), { recursive: true });
 const cards = await js(`[...document.querySelectorAll('[data-shot]')].map(e => { const r = e.getBoundingClientRect();
   return { name: e.dataset.shot, x: r.x + scrollX, y: r.y + scrollY, w: r.width, h: r.height }; })`);
 const shot = async (file, clip) => writeFileSync(file, Buffer.from((await cmd("Page.captureScreenshot",
   { format: "png", captureBeyondViewport: true, ...(clip ? { clip: { ...clip, scale: 1 } } : {}) })).data, "base64"));
 for (const c of cards) {
-  await shot(resolve(root, `charts/${c.name}.png`), { x: c.x - 6, y: c.y - 6, width: c.w + 12, height: c.h + 12 });
-  console.log("charts/" + c.name + ".png");
+  await shot(resolve(root, `docs/charts/${c.name}.png`), { x: c.x - 6, y: c.y - 6, width: c.w + 12, height: c.h + 12 });
+  console.log("docs/charts/" + c.name + ".png");
 }
 await shot(resolve(root, "docs/preview.png"), { x: 0, y: 0, width: W, height: H });
 console.log("docs/preview.png", W, "x", H);

@@ -9,8 +9,8 @@ and tracking warehouse KPIs. Each one starts from raw CSVs, runs in Python and S
 
 | | |
 |---|---|
-| **CV** | [PDF](cv/CV_Huynh_Khang_Vinh.pdf) · [HTML](cv/cv.html) |
-| **Dashboard** | [`docs/index.html`](docs/index.html) (open locally, or via GitHub Pages: `https://dinndinn1204.github.io/Khang-Vinh_Portfolio/`) |
+| **CV** | [Web, clickable](https://dinndinn1204.github.io/Khang-Vinh_Portfolio/cv.html) · [PDF](docs/CV_Huynh_Khang_Vinh.pdf) |
+| **Dashboard** | [https://dinndinn1204.github.io/Khang-Vinh_Portfolio/](https://dinndinn1204.github.io/Khang-Vinh_Portfolio/) (source: [`docs/index.html`](docs/index.html)) |
 | **Contact** | khangvinh.career@gmail.com |
 
 ![Dashboard preview](docs/preview.png)
@@ -34,8 +34,8 @@ The last 26 weeks are held out and forecast one week ahead with three methods:
 
 The promo uplift (×1.43 to ×1.47 by category) is learned on the training weeks only, so the test stays honest.
 
-![Forecast vs actual](charts/forecast_vs_actual.png)
-![Forecast accuracy](charts/forecast_accuracy.png)
+![Forecast vs actual](docs/charts/forecast_vs_actual.png)
+![Forecast accuracy](docs/charts/forecast_accuracy.png)
 
 ### 2 · Min/Max bike allocation
 
@@ -49,7 +49,7 @@ one bike at a time:
 Result on the sample: all 257 bikes placed, store-models below Min go from **49 to 0**, and no paid order is left uncovered.
 The module carries its own assert-based self-check (`python scripts/allocation.py`).
 
-![Allocation](charts/allocation.png)
+![Allocation](docs/charts/allocation.png)
 
 ### 3 · Freight cost estimator
 
@@ -62,8 +62,8 @@ pick-up (below 21K VND/l: base, below 23K: +5 %, otherwise +10 %). The monthly r
 - From the HCM hub, a full truck costs well under half as much per bike as a single-bike trip.
 - 6.7 % of trips carried a diesel surcharge.
 
-![Freight by month](charts/freight_monthly.png)
-![Freight per bike by trip size](charts/freight_cost_per_bike.png)
+![Freight by month](docs/charts/freight_monthly.png)
+![Freight per bike by trip size](docs/charts/freight_cost_per_bike.png)
 
 ### 4 · Warehouse & delivery KPIs (SQL)
 
@@ -78,8 +78,8 @@ pick-up (below 21K VND/l: base, below 23K: +5 %, otherwise +10 %). The monthly r
 - On-time delivery **90.1 %** overall; orders per day rise **31.5 %** from the 25th of each month and on-time drops from 92.2 % to 83.9 %.
 - The top two issue reasons account for **56.1 %** of all issues, so they are where to start.
 
-![Warehouse KPI](charts/warehouse_kpi.png)
-![Issue Pareto](charts/issue_pareto.png)
+![Warehouse KPI](docs/charts/warehouse_kpi.png)
+![Issue Pareto](docs/charts/issue_pareto.png)
 
 ---
 
@@ -91,14 +91,14 @@ Requirements: Python 3.10+, and for the PNG export Node 18+ with Google Chrome.
 pip install -r requirements.txt
 python scripts/generate_data.py   # data/*.csv (fixed seed, same output every run)
 python scripts/analyze.py         # output/*.csv, output/summary.json, docs/data.js
-node scripts/shoot.mjs            # charts/*.png and docs/preview.png from the dashboard
+node scripts/shoot.mjs            # docs/charts/*.png and docs/preview.png from the dashboard
 ```
 
 Open `docs/index.html` in a browser to explore the dashboard (region / model filter on the allocation chart, tooltips everywhere).
 To rebuild the CV PDF:
 
 ```bash
-google-chrome --headless=new --no-pdf-header-footer --print-to-pdf=cv/CV_Huynh_Khang_Vinh.pdf cv/cv.html
+google-chrome --headless=new --no-pdf-header-footer --print-to-pdf=docs/CV_Huynh_Khang_Vinh.pdf docs/cv.html
 ```
 
 To publish the dashboard: **Settings → Pages → Deploy from a branch → `main` / `docs`**.
@@ -106,10 +106,11 @@ To publish the dashboard: **Settings → Pages → Deploy from a branch → `mai
 ## Repository layout
 
 ```
-├── cv/                  CV in HTML and PDF
 ├── data/                synthetic input CSVs (generated)
-├── docs/                dashboard: index.html + data.js, preview.png
-├── charts/              PNG charts exported from the dashboard
+├── docs/                published with GitHub Pages
+│   ├── index.html       dashboard (+ data.js, preview.png)
+│   ├── cv.html          clickable CV, CV_Huynh_Khang_Vinh.pdf
+│   └── charts/          PNG charts exported from the dashboard
 ├── output/              result tables and summary.json
 ├── scripts/
 │   ├── generate_data.py synthetic data for all four projects
