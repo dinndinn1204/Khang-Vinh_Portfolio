@@ -1,0 +1,4 @@
+method,wape_pct,stockout_pct,avg_leftover_units
+Naive,20.3,25.3,9.4
+Moving avg (4w),16.3,17.7,9.0
+Smoothing + promo,12.6,13.6,8.3

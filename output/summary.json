@@ -1,0 +1,56 @@
+{
+  "forecast": {
+    "series": 180,
+    "weeks": 78,
+    "uplift_by_category": {
+      "Beverage": 1.47,
+      "Instant food": 1.46,
+      "Snack": 1.43
+    },
+    "methods": [
+      {
+        "method": "Naive",
+        "wape_pct": 20.3,
+        "stockout_pct": 25.3,
+        "avg_leftover_units": 9.4
+      },
+      {
+        "method": "Moving avg (4w)",
+        "wape_pct": 16.3,
+        "stockout_pct": 17.7,
+        "avg_leftover_units": 9.0
+      },
+      {
+        "method": "Smoothing + promo",
+        "wape_pct": 12.6,
+        "stockout_pct": 13.6,
+        "avg_leftover_units": 8.3
+      }
+    ]
+  },
+  "allocation": {
+    "store_models": 72,
+    "pool": 257,
+    "allocated": 257,
+    "below_min_before": 49,
+    "below_min_after": 0,
+    "paid_orders_uncovered_after": 0
+  },
+  "freight": {
+    "trips": 1800,
+    "bikes": 10357,
+    "freight_bn_vnd": 2.52,
+    "vnd_per_bike": 243676,
+    "fuel_surcharge_trips_pct": 6.7
+  },
+  "warehouse": {
+    "orders": 15682,
+    "on_time_pct": 90.1,
+    "top2_issue_share_pct": 56.1,
+    "best_picker": "P07",
+    "picker_spread_lines_per_day": 3.2,
+    "month_end_lift_pct": 31.5,
+    "on_time_month_end_pct": 83.9,
+    "on_time_rest_pct": 92.2
+  }
+}

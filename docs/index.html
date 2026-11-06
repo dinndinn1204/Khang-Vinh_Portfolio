@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operations Analytics Portfolio · Huynh Khang Vinh</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script src="data.js"></script>
+<style>
+:root{
+  --brand:#FF6A2B; --brand-ink:#C2410C; --brand-soft:#FFF1EA;
+  --ink:#0F172A; --ink2:#334155; --muted:#64748B; --faint:#94A3B8;
+  --line:#E5E7EB; --line2:#F1F5F9; --bg:#F4F6F8; --surface:#FFFFFF; --navy:#111827;
+  --good:#16A34A; --warn:#D97706; --bad:#DC2626; --info:#2563EB; --neutral:#94A3B8; --indigo:#4338CA;
+  --r:14px; --shadow:0 1px 2px rgba(15,23,42,.04),0 4px 16px rgba(15,23,42,.05);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+.top{display:flex;align-items:center;gap:20px;padding:12px max(16px,28px);background:var(--navy);color:#fff;position:sticky;top:0;z-index:20;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;white-space:nowrap}
+.mark{width:30px;height:30px;border-radius:8px;background:var(--brand);display:grid;place-items:center;font-weight:800;font-size:13px}
+.brand small{display:block;font-weight:500;color:#9CA3AF;font-size:11px;letter-spacing:.08em;text-transform:uppercase;line-height:1.1}
+.tabs{display:flex;gap:4px;background:#1F2937;padding:4px;border-radius:10px;flex-wrap:wrap}
+.tab{color:#D1D5DB;padding:7px 16px;border-radius:7px;font-weight:600;white-space:nowrap;text-decoration:none}
+.tab:hover{background:#fff;color:var(--ink)}
+.wrap{max-width:1280px;margin:0 auto;padding:24px max(16px,28px) 48px;display:flex;flex-direction:column;gap:18px}
+.head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;scroll-margin-top:80px}.head h2{margin:0;font-size:20px}.head span{color:var(--muted);font-size:12.5px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.kpi{background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);padding:16px 18px;position:relative;overflow:hidden}
+.kpi .l{color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.kpi .v{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:4px;line-height:1.15}
+.kpi .v .of{font-size:.55em;font-weight:600;color:var(--muted);letter-spacing:0}
+.kpi .s{color:var(--muted);font-size:12.5px;margin-top:4px}
+.kpi.hero{background:var(--navy);color:#fff}.kpi.hero .l,.kpi.hero .s,.kpi.hero .v .of{color:#9CA3AF}
+.kpi.hero:after{content:"";position:absolute;right:-48px;bottom:-56px;width:130px;height:130px;border-radius:50%;background:var(--brand);opacity:.16}
+.kpi.good .v{color:var(--good)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:18px}
+.card{background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px;min-width:0}
+.ch{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;flex-wrap:wrap}.ch h3{margin:0;font-size:15px;font-weight:700}
+.ch p{margin:2px 0 0;color:var(--muted);font-size:12.5px}.ch .sp{flex:1}
+.plot{height:300px;width:100%}
+select{font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--surface);color:var(--ink2)}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:10px;max-height:340px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{position:sticky;top:0;background:#F8FAFC;color:var(--muted);font-weight:600;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;text-align:right;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+tr:hover td{background:var(--brand-soft)}
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;background:var(--line2);color:var(--ink2)}
+.tag.top{background:var(--brand-soft);color:var(--brand-ink)}
+.foot{color:var(--muted);font-size:12px;line-height:1.7;background:var(--surface);border-radius:var(--r);padding:14px 18px;box-shadow:var(--shadow)}
+.foot h4{margin:0 0 6px;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink2)}
+.foot ul{margin:0;padding-left:18px}
+code{font-family:ui-monospace,Consolas,monospace;font-size:12px;background:var(--line2);padding:1px 5px;border-radius:5px}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="brand"><div class="mark">KV</div><div>Operations Analytics<small>Portfolio · synthetic data</small></div></div>
+  <nav class="tabs"><a class="tab" href="#forecast">Forecast</a><a class="tab" href="#allocation">Allocation</a><a class="tab" href="#freight">Freight</a><a class="tab" href="#warehouse">Warehouse</a></nav>
+</div>
+<main class="wrap">
+
+  <div class="head" id="forecast"><h2>1 · Demand forecasting &amp; replenishment</h2><span>12 stores × 15 SKUs × 78 weeks · last 26 weeks held out as test</span></div>
+  <div class="kpis" id="k-forecast"></div>
+  <div class="grid2">
+    <div class="card" data-shot="forecast_vs_actual"><div class="ch"><div><h3>Weekly units: actual vs forecast</h3><p>Chain total. Shaded band = test period, forecasts made one week ahead.</p></div></div><div class="plot" id="c-fc"></div></div>
+    <div class="card" data-shot="forecast_accuracy"><div class="ch"><div><h3>Accuracy and stock-outs by method</h3><p>WAPE on the test weeks; stock-out = demand above forecast + 15 % buffer.</p></div></div><div class="plot" id="c-fa"></div></div>
+  </div>
+
+  <div class="head" id="allocation"><h2>2 · Min/Max bike allocation</h2><span>24 stores × 3 models · warehouse pool per region · paid orders → Min → Max</span></div>
+  <div class="kpis" id="k-alloc"></div>
+  <div class="card" data-shot="allocation"><div class="ch"><div><h3>Stock after allocation vs Min / Max</h3><p>Grey = stock left after paid orders are handed over; orange = bikes allocated from the warehouse.</p></div><div class="sp"></div>
+    <select id="s-region"></select><select id="s-model"></select></div><div class="plot" id="c-al"></div></div>
+
+  <div class="head" id="freight"><h2>3 · Freight cost estimator</h2><span>1,800 trips · tariff by destination × trip size · diesel surcharge at pick-up date</span></div>
+  <div class="kpis" id="k-freight"></div>
+  <div class="grid2">
+    <div class="card" data-shot="freight_monthly"><div class="ch"><div><h3>Estimated freight by month and channel</h3><p>Million VND, stacked by channel; line = average diesel price (K VND / litre).</p></div></div><div class="plot" id="c-fm"></div></div>
+    <div class="card" data-shot="freight_cost_per_bike"><div class="ch"><div><h3>Freight per bike by trip size</h3><p>K VND per bike, by the number of bikes on the truck.</p></div></div><div class="plot" id="c-fb"></div></div>
+  </div>
+  <div class="card"><div class="ch"><div><h3>Per destination province</h3><p>Sorted by freight.</p></div></div><div class="tw"><table id="t-prov"></table></div></div>
+
+  <div class="head" id="warehouse"><h2>4 · Warehouse &amp; delivery KPIs</h2><span>15.7K orders · 4 business units · 180 days · queries in <code>sql/</code></span></div>
+  <div class="kpis" id="k-wh"></div>
+  <div class="grid2">
+    <div class="card" data-shot="warehouse_kpi"><div class="ch"><div><h3>Orders per day and on-time rate</h3><p>7-day average by business unit; line = weekly on-time %.</p></div></div><div class="plot" id="c-wk"></div></div>
+    <div class="card" data-shot="issue_pareto"><div class="ch"><div><h3>Delivery issues: Pareto</h3><p>Count by reason; line = cumulative share.</p></div></div><div class="plot" id="c-ip"></div></div>
+  </div>
+  <div class="card"><div class="ch"><div><h3>Picker ranking</h3><p><code>sql/02_picker_ranking.sql</code>: RANK() and gap to team average.</p></div></div><div class="tw"><table id="t-pick"></table></div></div>
+
+  <div class="foot"><h4>About the data</h4><ul>
+    <li>Every number on this page comes from synthetic data made by <code>scripts/generate_data.py</code> (fixed seed). No employer data is used.</li>
+    <li>The methods mirror real work: weekly store forecasting, Min/Max allocation, tariff-based freight costing and warehouse KPI tracking.</li>
+  </ul></div>
+</main>
+<script>
+const D=window.DATA, S=D.summary;
+const CSS=getComputedStyle(document.documentElement), tok=k=>CSS.getPropertyValue("--"+k).trim();
+const PAL=[tok("brand"),tok("indigo"),tok("good"),tok("info"),"#9333EA","#DB2777","#0891B2",tok("warn"),tok("neutral")];
+const TTS={backgroundColor:"#111827",borderWidth:0,textStyle:{color:"#fff",fontSize:12}};
+const axisY={axisLine:{show:false},axisTick:{show:false},splitLine:{lineStyle:{color:tok("line2")}},axisLabel:{color:tok("faint")}};
+const axisX={axisTick:{show:false},axisLine:{lineStyle:{color:tok("line")}},axisLabel:{color:tok("muted")}};
+const LEG={top:0,left:0,itemGap:16,icon:"roundRect",itemWidth:10,itemHeight:10,textStyle:{color:tok("muted")}};
+const n0=v=>v==null?"—":Math.round(v).toLocaleString("en-US"), n1=v=>v==null?"—":(+v).toLocaleString("en-US",{maximumFractionDigits:1});
+const charts={};
+function chart(id,opt){ const el=document.getElementById(id); if(charts[id]) charts[id].dispose();
+  const c=echarts.init(el,null,{renderer:"canvas"});
+  c.setOption(Object.assign({textStyle:{fontFamily:"Be Vietnam Pro, sans-serif",color:"#334155"},animation:false,color:PAL,
+    grid:{left:8,right:16,top:36,bottom:8,containLabel:true},tooltip:{trigger:"axis",axisPointer:{type:"shadow"},...TTS}},opt));
+  charts[id]=c; return c; }
+addEventListener("resize",()=>Object.values(charts).forEach(c=>c.resize()));
+const kpi=(l,v,s,cls="")=>`<div class="kpi ${cls}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
+
+document.fonts.ready.then(()=>{   // draw after Be Vietnam Pro loads, so legend widths are measured with the real font
+/* ---------- 1. forecast ---------- */
+{ const f=D.forecast, m=Object.fromEntries(f.methods.map(x=>[x.method,x])), best=m["Smoothing + promo"], ma=m["Moving avg (4w)"], nv=m["Naive"];
+  document.getElementById("k-forecast").innerHTML=
+    kpi("Forecast error (WAPE)",`${n1(best.wape_pct)}<span class="of"> %</span>`,`vs ${n1(nv.wape_pct)} % naive · ${n1(ma.wape_pct)} % moving avg`,"hero")+
+    kpi("Stock-out weeks",`${n1(best.stockout_pct)}<span class="of"> %</span>`,`down from ${n1(nv.stockout_pct)} % with a naive forecast`,"good")+
+    kpi("Promo uplift learned",`×${n1(Math.max(...Object.values(S.forecast.uplift_by_category)))}`,Object.entries(S.forecast.uplift_by_category).map(([k,v])=>`${k} ×${v}`).join(" · "))+
+    kpi("Series forecast",n0(S.forecast.series),`store × SKU, ${S.forecast.weeks} weeks each`);
+  const i0=f.weeks.indexOf(f.test_from);
+  chart("c-fc",{legend:LEG,tooltip:{trigger:"axis",...TTS,valueFormatter:n0},
+    xAxis:{type:"category",data:f.weeks,...axisX,axisLabel:{color:tok("muted"),formatter:v=>v.slice(0,7)}},
+    yAxis:{type:"value",scale:true,...axisY,axisLabel:{color:tok("faint"),formatter:v=>(v/1000).toFixed(1)+"K"}},
+    series:[{name:"Actual",type:"line",data:f.actual,symbol:"none",lineStyle:{width:2.4,color:tok("ink")},itemStyle:{color:tok("ink")},
+        markArea:{silent:true,itemStyle:{color:"rgba(255,106,43,.07)"},label:{color:tok("brand-ink"),fontSize:11,position:"insideTop"},data:[[{name:"test · 26 weeks",xAxis:f.test_from},{xAxis:f.weeks.at(-1)}]]}},
+      {name:"Moving avg (4w)",type:"line",data:f.ma4,symbol:"none",lineStyle:{width:1.6,type:"dashed",color:tok("neutral")},itemStyle:{color:tok("neutral")}},
+      {name:"Smoothing + promo",type:"line",data:f.es,symbol:"none",lineStyle:{width:2.4,color:tok("brand")},itemStyle:{color:tok("brand")}}]});
+  const ms=f.methods.map(x=>x.method);
+  chart("c-fa",{legend:LEG,tooltip:{trigger:"axis",axisPointer:{type:"shadow"},...TTS,valueFormatter:v=>n1(v)+" %"},grid:{left:8,right:40,top:36,bottom:8,containLabel:true},
+    xAxis:{type:"value",...axisY,axisLabel:{color:tok("faint"),formatter:v=>v+" %"}},yAxis:{type:"category",data:ms,inverse:true,...axisX},
+    series:[{name:"WAPE",type:"bar",data:f.methods.map(x=>x.wape_pct),itemStyle:{color:tok("indigo"),borderRadius:[0,4,4,0]},barMaxWidth:18,label:{show:true,position:"right",color:tok("muted"),fontSize:11,formatter:p=>n1(p.value)+" %"}},
+      {name:"Stock-out weeks",type:"bar",data:f.methods.map(x=>x.stockout_pct),itemStyle:{color:tok("brand"),borderRadius:[0,4,4,0]},barMaxWidth:18,label:{show:true,position:"right",color:tok("muted"),fontSize:11,formatter:p=>n1(p.value)+" %"}}]}); }
+
+/* ---------- 2. allocation ---------- */
+{ const a=S.allocation, R=document.getElementById("s-region"), M=document.getElementById("s-model");
+  document.getElementById("k-alloc").innerHTML=
+    kpi("Bikes allocated",`${n0(a.allocated)}<span class="of"> / ${n0(a.pool)}</span>`,"whole warehouse pool placed","hero")+
+    kpi("Store-models below Min",`${a.below_min_before} → ${a.below_min_after}`,`of ${a.store_models} store × model pairs`,"good")+
+    kpi("Paid orders uncovered",n0(a.paid_orders_uncovered_after),"paid orders always served first","good")+
+    kpi("Rule order","Paid → Min → Max","lowest coverage (stock ÷ Min) gets the next bike");
+  const opts=(el,vals,v)=>{ el.innerHTML=vals.map(x=>`<option${x===v?" selected":""}>${x}</option>`).join(""); };
+  opts(R,[...new Set(D.allocation.map(r=>r.region))],"South"); opts(M,[...new Set(D.allocation.map(r=>r.model))],"Model A");
+  const draw=()=>{ const rows=D.allocation.filter(r=>r.region===R.value&&r.model===M.value), x=rows.map(r=>r.store.replace("Store ","S"));
+    const lv=rows.map(r=>Math.max(0,r.on_hand-r.paid_orders)), mk=(k,c)=>({name:k==="min_qty"?"Min":"Max",type:"scatter",symbol:"rect",symbolSize:[22,3],z:5,
+      itemStyle:{color:c},data:rows.map(r=>r[k])});
+    chart("c-al",{legend:LEG,tooltip:{trigger:"axis",axisPointer:{type:"shadow"},...TTS,formatter:ps=>{ const r=rows[ps[0].dataIndex];
+        return `<b>${r.store}</b> · ${r.model}<br>On hand ${r.on_hand} · paid orders ${r.paid_orders}<br>Allocated <b>${r.allocated}</b> (paid ${r.reason_paid}, to Min ${r.reason_min}, to Max ${r.reason_max})<br>Min ${r.min_qty} · Max ${r.max_qty}`; }},
+      xAxis:{type:"category",data:x,...axisX},yAxis:{type:"value",...axisY},
+      series:[{name:"Stock after paid orders",type:"bar",stack:"s",data:lv,itemStyle:{color:"#CBD5E1"},barMaxWidth:30},
+        {name:"Allocated",type:"bar",stack:"s",data:rows.map(r=>r.allocated),itemStyle:{color:tok("brand"),borderRadius:[4,4,0,0]},barMaxWidth:30,
+          label:{show:true,position:"top",color:tok("brand-ink"),fontSize:11,fontWeight:600,formatter:p=>p.value?"+"+p.value:""}},
+        mk("min_qty",tok("bad")),mk("max_qty",tok("navy"))]}); };
+  R.onchange=M.onchange=draw; draw(); }
+
+/* ---------- 3. freight ---------- */
+{ const f=D.freight, s=S.freight;
+  document.getElementById("k-freight").innerHTML=
+    kpi("Estimated freight",`${n1(s.freight_bn_vnd)}<span class="of"> bn VND</span>`,`${n0(s.trips)} trips · 6 months`,"hero")+
+    kpi("Freight per bike",`${n0(s.vnd_per_bike/1000)}<span class="of">K VND</span>`,`${n0(s.bikes)} bikes moved`)+
+    kpi("Single-bike vs full truck",`${n0(f.per_bike.HCM[0])}K → ${n0(f.per_bike.HCM.at(-1))}K`,"per bike, HCM hub")+
+    kpi("Diesel surcharge trips",`${n1(s.fuel_surcharge_trips_pct)}<span class="of"> %</span>`,"diesel ≥ 21K VND/l at pick-up: +5 % / +10 %");
+  const ch=Object.keys(f.channels);
+  chart("c-fm",{legend:LEG,tooltip:{trigger:"axis",axisPointer:{type:"shadow"},...TTS},grid:{left:8,right:8,top:36,bottom:8,containLabel:true},
+    xAxis:{type:"category",data:f.months,...axisX},
+    yAxis:[{type:"value",...axisY,axisLabel:{color:tok("faint"),formatter:v=>v+"M"}},{type:"value",min:16,max:32,...axisY,splitLine:{show:false},axisLabel:{color:tok("faint"),formatter:v=>v+"K"}}],
+    series:[...ch.map((k,i)=>({name:k,type:"bar",stack:"f",data:f.channels[k],barMaxWidth:44,itemStyle:{color:[tok("brand"),tok("indigo"),"#CBD5E1"][i],borderRadius:i===ch.length-1?[4,4,0,0]:0},
+        tooltip:{valueFormatter:v=>n1(v)+" M VND"},
+        label:i===ch.length-1?{show:true,position:"top",color:tok("ink2"),fontSize:11,fontWeight:600,formatter:p=>n0(ch.reduce((a,c)=>a+f.channels[c][p.dataIndex],0))}:{show:false}})),
+      {name:"Diesel",type:"line",yAxisIndex:1,data:f.diesel,symbol:"circle",symbolSize:7,lineStyle:{width:2,color:tok("good")},itemStyle:{color:tok("good")},tooltip:{valueFormatter:v=>v+"K VND/l"}}]});
+  chart("c-fb",{legend:LEG,tooltip:{trigger:"axis",...TTS,valueFormatter:v=>n1(v)+"K VND"},
+    xAxis:{type:"category",data:f.tiers,name:"bikes per trip",nameLocation:"middle",nameGap:28,nameTextStyle:{color:tok("muted")},...axisX},grid:{left:8,right:16,top:36,bottom:24,containLabel:true},
+    yAxis:{type:"value",...axisY,axisLabel:{color:tok("faint"),formatter:v=>v+"K"}},
+    series:[{name:"From HCM hub",type:"line",data:f.per_bike.HCM,symbolSize:8,lineStyle:{width:2.4},itemStyle:{color:tok("brand")},areaStyle:{color:"rgba(255,106,43,.08)"}},
+      {name:"From HN hub",type:"line",data:f.per_bike.HN,symbolSize:8,lineStyle:{width:2.4},itemStyle:{color:tok("indigo")}}]});
+  document.getElementById("t-prov").innerHTML="<thead><tr><th>Province</th><th>Trips</th><th>Bikes</th><th>Freight (M VND)</th><th>Per bike (K VND)</th></tr></thead><tbody>"+
+    f.provinces.map((p,i)=>`<tr><td>${i<3?`<span class="tag top">${p.province}</span>`:p.province}</td><td>${n0(p.trips)}</td><td>${n0(p.bikes)}</td><td>${n1(p.freight_m)}</td><td>${n1(p.per_bike_k)}</td></tr>`).join("")+"</tbody>"; }
+
+/* ---------- 4. warehouse ---------- */
+{ const w=D.warehouse, s=S.warehouse;
+  document.getElementById("k-wh").innerHTML=
+    kpi("On-time delivery",`${n1(s.on_time_pct)}<span class="of"> %</span>`,`${n0(s.orders)} orders`,"hero")+
+    kpi("Top 2 issue reasons",`${n1(s.top2_issue_share_pct)}<span class="of"> %</span>`,"of all delivery issues: fix these first")+
+    kpi("Best picker",s.best_picker,`spread ${n1(s.picker_spread_lines_per_day)} lines / day across the team`)+
+    kpi("Month-end peak",`+${n1(s.month_end_lift_pct)}<span class="of"> %</span>`,`orders/day from the 25th · on-time ${n1(s.on_time_month_end_pct)} % vs ${n1(s.on_time_rest_pct)} %`);
+  const bu=Object.keys(w.bu), wk=new Map(w.weeks.map((d,i)=>[d,w.on_time[i]]));
+  chart("c-wk",{legend:LEG,tooltip:{trigger:"axis",...TTS,valueFormatter:v=>v==null?"—":n1(v)},grid:{left:8,right:8,top:36,bottom:8,containLabel:true},
+    xAxis:{type:"category",data:w.days,boundaryGap:false,...axisX,axisLabel:{color:tok("muted"),formatter:v=>v.slice(0,7)}},
+    yAxis:[{type:"value",...axisY},{type:"value",min:70,max:100,...axisY,splitLine:{show:false},axisLabel:{color:tok("faint"),formatter:v=>v+" %"}}],
+    series:[...bu.map((k,i)=>({name:k,type:"line",stack:"o",symbol:"none",data:w.bu[k],lineStyle:{width:0},areaStyle:{opacity:.9},itemStyle:{color:[tok("brand"),tok("indigo"),"#0891B2","#CBD5E1"][i]}})),
+      {name:"On-time %",type:"line",yAxisIndex:1,connectNulls:true,symbol:"none",data:w.days.map(d=>wk.has(d)?wk.get(d):null),lineStyle:{width:2.2,color:tok("ink")},itemStyle:{color:tok("ink")}}]});
+  const is=w.issues;
+  chart("c-ip",{legend:LEG,tooltip:{trigger:"axis",axisPointer:{type:"shadow"},...TTS},grid:{left:8,right:8,top:36,bottom:8,containLabel:true},
+    xAxis:{type:"category",data:is.map(x=>x.issue_reason),...axisX,axisLabel:{color:tok("muted"),interval:0,fontSize:11,formatter:v=>v.replace(" ","\n")}},
+    yAxis:[{type:"value",...axisY},{type:"value",min:0,max:100,...axisY,splitLine:{show:false},axisLabel:{color:tok("faint"),formatter:v=>v+" %"}}],
+    series:[{name:"Issues",type:"bar",data:is.map(x=>x.issues),barMaxWidth:40,itemStyle:{color:tok("brand"),borderRadius:[4,4,0,0]},label:{show:true,position:"top",color:tok("muted"),fontSize:11}},
+      {name:"Cumulative %",type:"line",yAxisIndex:1,data:is.map(x=>x.cumulative_pct),symbolSize:7,lineStyle:{width:2.2,color:tok("ink")},itemStyle:{color:tok("ink")},tooltip:{valueFormatter:v=>v+" %"}}]});
+  document.getElementById("t-pick").innerHTML="<thead><tr><th>Picker</th><th>Days</th><th>Lines / day</th><th>On-time %</th><th>Rank volume</th><th>Rank on-time</th><th>vs team avg</th></tr></thead><tbody>"+
+    w.pickers.map(p=>`<tr><td>${p.rank_volume<=3?`<span class="tag top">${p.picker_id}</span>`:p.picker_id}</td><td>${p.days_worked}</td><td>${n1(p.lines_per_day)}</td><td>${n1(p.on_time_pct)}</td><td>${p.rank_volume}</td><td>${p.rank_on_time}</td><td style="color:${p.vs_team_avg>=0?tok("good"):tok("bad")}">${p.vs_team_avg>0?"+":""}${n1(p.vs_team_avg)}</td></tr>`).join("")+"</tbody>"; }
+});
+</script>
+</body>
+</html>
