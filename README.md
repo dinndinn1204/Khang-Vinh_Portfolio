@@ -9,7 +9,7 @@ and tracking warehouse KPIs. Each one starts from raw CSVs, runs in Python and S
 
 | | |
 |---|---|
-| **CV** | [Web, clickable](https://dinndinn1204.github.io/Khang-Vinh_Portfolio/cv.html) · [PDF](docs/CV_Huynh_Khang_Vinh.pdf) |
+| **CV** | [PDF](docs/CV_Huynh_Khang_Vinh.pdf) |
 | **Dashboard** | [https://dinndinn1204.github.io/Khang-Vinh_Portfolio/](https://dinndinn1204.github.io/Khang-Vinh_Portfolio/) (source: [`docs/index.html`](docs/index.html)) |
 | **Contact** | khangvinh.career@gmail.com |
 
